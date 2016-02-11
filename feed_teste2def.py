@@ -1,4 +1,4 @@
-# -*- coding = utf-8 -*-
+# -*- coding: utf-8 -*-
 #python_version  :3.4
 import feedparser
 import urllib
@@ -53,7 +53,7 @@ url = 'feeds.feedburner.com/hack-n-cast'
 d, nprogramas = feed_in(url)
 pesquisa  = input ("Nome do EP: ")
 pesquisa = str.title(pesquisa)
-lista_dois = []
+lista_de_escolha = []
 numeros = 0
 for i in range(nprogramas):
 
@@ -65,14 +65,25 @@ for i in range(nprogramas):
         valor_pesquisa = i
         lista[int(t)] = i
         t = t + 1
+        lista_de_escolha += [i]
         numeros = numeros + 1
-        print('"',i,'"" - ',d['entries'][i]['title'])
+        print('"',i,'" - ',d['entries'][i]['title'])
+################################################################
+print (lista_de_escolha)
+print (numeros)
+print (lista_de_escolha[numeros-1])
 
 if numeros > 1:
     escolha = 0
     escolha = input("Escolha um ep: ")
-    valor_pesquisa = escolha
-    valor_pesquisa = int(valor_pesquisa)
+    escolha = int(escolha)
+    valor_pesquisa = False
+    for c in range(0,lista_de_escolha[numeros-1]+1):
+        if lista_de_escolha[numeros-1] == escolha:
+            valor_pesquisa = escolha
+    if valor_pesquisa == False:
+        print ('Escolha não existe')
+        exit()
 
 mp3 = str(d['entries'][valor_pesquisa]['media_content'])
 nome = d['entries'][valor_pesquisa]['title']
