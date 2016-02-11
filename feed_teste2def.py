@@ -53,7 +53,8 @@ url = 'feeds.feedburner.com/hack-n-cast'
 d, nprogramas = feed_in(url)
 pesquisa  = input ("Nome do EP: ")
 pesquisa = str.title(pesquisa)
-
+lista_dois = []
+numeros = 0
 for i in range(nprogramas):
 
     #print(d['entries'][i]['title'])
@@ -64,13 +65,19 @@ for i in range(nprogramas):
         valor_pesquisa = i
         lista[int(t)] = i
         t = t + 1
-        print(d['entries'][i]['title'])
+        numeros = numeros + 1
+        print('"',i,'"" - ',d['entries'][i]['title'])
+
+if numeros > 1:
+    escolha = 0
+    escolha = input("Escolha um ep: ")
+    valor_pesquisa = escolha
+    valor_pesquisa = int(valor_pesquisa)
 
 mp3 = str(d['entries'][valor_pesquisa]['media_content'])
 nome = d['entries'][valor_pesquisa]['title']
-print(nome)
-print(limpar_link(mp3))
-
+print('Link: '+limpar_link(mp3))
+print (nome)
 dow = input("Deseja realizar o download desse podcast(sim/nao): ")
 dow = str.upper(dow)
 
