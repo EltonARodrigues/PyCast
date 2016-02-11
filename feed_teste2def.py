@@ -55,6 +55,7 @@ pesquisa  = input ("Nome do EP: ")
 pesquisa = str.title(pesquisa)
 lista_de_escolha = []
 numeros = 0
+print ('- ID - ')
 for i in range(nprogramas):
 
     #print(d['entries'][i]['title'])
@@ -67,21 +68,22 @@ for i in range(nprogramas):
         t = t + 1
         lista_de_escolha += [i]
         numeros = numeros + 1
-        print('"',i,'" - ',d['entries'][i]['title'])
+        print ('"',i,'" | ',d['entries'][i]['title'])
 ################################################################
+'''
 print (lista_de_escolha)
 print (numeros)
-print (lista_de_escolha[numeros-1])
-
+print (lista_de_escolha[numeros-1])'''
+################################################################
 if numeros > 1:
     escolha = 0
-    escolha = input("Escolha um ep: ")
+    escolha = input("Escolha um episódio pelo ID: ")
     escolha = int(escolha)
-    valor_pesquisa = False
-    for c in range(0,lista_de_escolha[numeros-1]+1):
-        if lista_de_escolha[numeros-1] == escolha:
+    valor_pesquisa = 'vazio'
+    for c in range(0,numeros):
+        if lista_de_escolha[c]==escolha:
             valor_pesquisa = escolha
-    if valor_pesquisa == False:
+    if valor_pesquisa == 'vazio':
         print ('Escolha não existe')
         exit()
 
@@ -94,10 +96,10 @@ dow = str.upper(dow)
 
 if dow == "SIM":
 
-    print ("Realizando Download.......")
+    print ("Realizando Download...")
     download(nome,limpar_link(mp3))
 
-print("saindo....")
+print("Saindo....")
 
 #except NameError:
 #    print("Nome não encontrado...realizar pesquisa novamentes")
