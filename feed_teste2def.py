@@ -1,16 +1,14 @@
+# -*- coding = utf-8 -*-
+#python_version  :3.4
 import feedparser
 import urllib
-import string
 import urllib.request
-import string
-from array import array
 
 def feed_in(url):
 
-
-    if str.find(url,"http://") !=  0:
+    if str.find(url,"http://") !=  False:
         url = "http://" + url
-    print("Carregando feed....")
+    print("Carregando feed...")
     d = feedparser.parse(url)
     d.feed.title
     d.feed.link
@@ -23,7 +21,7 @@ def feed_in(url):
 def download(nome,arquivo):
     html=urllib.request.urlopen(arquivo).read()
 
-    if str.find(nome,".mp3") == -1:
+    if str.find(nome,".mp3") == False:
         nome = nome + ".mp3"
 
     arq = open(nome, "wb")
@@ -45,18 +43,15 @@ def limpar_link(mp3):
 
     return mp3
 
-
+###############################################################################
 
 contador = 0
 t=0
 lista = {}
-url = "http://feeds.feedburner.com/rapaduracast"
+url = 'feeds.feedburner.com/hack-n-cast'
 #url = input("Insira link do site: ")
 d, nprogramas = feed_in(url)
-
-
-
-pesquisa  = input("Nome do EP: ")
+pesquisa  = input ("Nome do EP: ")
 pesquisa = str.title(pesquisa)
 
 for i in range(nprogramas):
@@ -64,26 +59,12 @@ for i in range(nprogramas):
     #print(d['entries'][i]['title'])
     titulo = (d['entries'][i]['title'])
     #mp3 = str(d['entries'][40]['media_content'])
-
     if str.find(titulo,pesquisa) != -1:
         contador = contador + 1
         valor_pesquisa = i
-
         lista[int(t)] = i
         t = t + 1
-        #print(d['entries'][i]['title'])
-
-
-#if contador > 1:
-#    escolha = input("Mais de uma resultado enconrado.. insira o numero de um dos eps encotrados: ")
-#    print(lista[1])
-    #if str.find(titulo,escolha) != -1:
-        #print(d['entries'][]['title'])
-
-
-#print(int(escolha))
-#nome = d['entries'][int(escolha)]['title']
-#print(nome)
+        print(d['entries'][i]['title'])
 
 mp3 = str(d['entries'][valor_pesquisa]['media_content'])
 nome = d['entries'][valor_pesquisa]['title']
