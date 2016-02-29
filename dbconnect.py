@@ -3,54 +3,63 @@ import urllib
 import urllib.request
 import sqlite3
 
+class DBconnect(object):
 
-def url_feed(url):
+    def insert_feed(title,url,subtitle,link,arquivoXML):
 
-    if str.find(url,"http://") !=  False:
-        url = "http://" + url
+        #if str.find(url,"http://") !=  False:
+        #    url = "http://" + url
 
-    print("Carregando feed...")
+        #print("Carregando feed...")
 
-    d = feedparser.parse(url)
+        #d = feedparser.parse(url)
+        #teste = "fdsfsdfds"
+        dados = [(title,url,subtitle,link,arquivoXML)]
 
-    dados = [(d.feed.title,url,d.feed.subtitle,d.feed.link)]
+        # conectando BD
+        #conn = sqlite3.connect('feed_list.db')
+        #cursor = conn.cursor()
+        # inserindo dados na tabela
+        conn = sqlite3.connect('feed_list.db')
+        cursor = conn.cursor()
 
-    # conectando BD
-    #conn = sqlite3.connect('feed_list.db')
-    #cursor = conn.cursor()
-    # inserindo dados na tabela
-    cursor.executemany("""
-    INSERT INTO feed (nome, url, subtitle, link)
-    VALUES (?,?,?,?)
-    """, dados)
+        cursor.executemany("""
+        INSERT INTO feed (nome, url, subtitle, link, arquivo_feed)
+        VALUES (?,?,?,?,?)
+        """,dados)
 
-    # gravando no bd
-    conn.commit()
+        # gravando no bd
+        conn.commit()
+        conn.close()
 
-    print('Dados inseridos com sucesso.')
+        print('Dados inseridos com sucesso.')
 
-    #conn.close()
+        #conn.close()
 
-def select_feed():
+    def select_feed():
 
-    # lendo os dados
-    cursor.execute("""
-    SELECT * FROM feed;
-    """)
+        # lendo os dados
+        conn = sqlite3.connect('feed_list.db')
+        cursor = conn.cursor()
+        cursor.execute("""
+        SELECT * FROM feed;
+        """)
 
-    for linha in cursor.fetchall():
-        print(linha)
+        for linha in cursor.fetchall():
+            print(linha)
 
-    #conn.close()
+        conn.close()
 
-# conectando BD
-conn = sqlite3.connect('feed_list.db')
-cursor = conn.cursor()
-conn = sqlite3.connect('feed_list.db')
-cursor = conn.cursor()
+        #conn.close()
+    select_feed()
+    '''# conectando BD
+    conn = sqlite3.connect('feed_list.db')
+    cursor = conn.cursor()
+    conn = sqlite3.connect('feed_list.db')
+    cursor = conn.cursor()
 
-url = 'feeds.feedburner.com/hack-n-cast'
-url_feed(url)
-print(select_feed())
+    url = 'feeds.feedburner.com/hack-n-cast'
+    url_feed(url)
+    print(select_feed())
 
-conn.close()
+    conn.close()'''

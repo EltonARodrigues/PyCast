@@ -3,6 +3,7 @@
 import feedparser
 import urllib
 import urllib.request
+from dbconnect import DBconnect
 
 def feed_in(url):
 
@@ -13,7 +14,6 @@ def feed_in(url):
     d.feed.title
     d.feed.link
     d.feed.subtitle
-    d.feed.url
     nprogramas = int((len(d['entries'])))
 
     return d, nprogramas
@@ -44,8 +44,31 @@ def limpar_link(mp3):
     return mp3
 
 ###############################################################################
+'''url = 'http://feeds.feedburner.com/rapaduracast'
+d, nprogramas = feed_in(url)
+#download("teste","http://www.seresrapadurianos.net/casts/rapaduracast_456-oscar2016.mp3")
+
+db = DBconnect
+teste = "rtdesfsd"
+
+db.insert_feed(d.feed.title,d.feed.link,d.feed.subtitle,url,teste)
 
 
+
+######################################################################################
+escolha_feed = input('1. Salvar um novo feed\n2. Usar feed existente: ')
+if escolha_feed == 1:
+    #url = input("Insira link do feed: ")
+    #url = 'http://feeds.feedburner.com/rapaduracast'
+    d, nprogramas = feed_in(url)
+    db = DBconnect
+
+
+
+
+
+'''
+#######################################################################################
 t=0
 lista = {}
 lista_de_escolha = []
