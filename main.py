@@ -11,9 +11,6 @@ def feed_in(url):
         url = "http://" + url
     print("Carregando feed...")
     d = feedparser.parse(url)
-    d.feed.title
-    d.feed.link
-    d.feed.subtitle
     nprogramas = int((len(d['entries'])))
 
     return d, nprogramas
@@ -116,7 +113,7 @@ try:
             exit()
 
 
-    mp3 = str(d['entries'][valor_pesquisa]['media_content'])
+    mp3 = str(d['entries'][valor_pesquisa]['enclosures'])
     nome = d['entries'][valor_pesquisa]['title']
 
 
