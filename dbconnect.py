@@ -5,7 +5,7 @@ import sqlite3
 
 class DBconnect(object):
 
-    def insert_feed(title,url,subtitle,link,arquivoXML):
+    def insert_feed(title,url,subtitle,link):
 
         #if str.find(url,"http://") !=  False:
         #    url = "http://" + url
@@ -14,7 +14,7 @@ class DBconnect(object):
 
         #d = feedparser.parse(url)
         #teste = "fdsfsdfds"
-        dados = [(title,url,subtitle,link,arquivoXML)]
+        dados = [(title,url,subtitle,link)]
 
         # conectando BD
         #conn = sqlite3.connect('feed_list.db')
@@ -24,8 +24,8 @@ class DBconnect(object):
         cursor = conn.cursor()
 
         cursor.executemany("""
-        INSERT INTO feed (nome, url, subtitle, link, arquivo_feed)
-        VALUES (?,?,?,?,?)
+        INSERT INTO feed (nome, url, subtitle, link)
+        VALUES (?,?,?,?)
         """,dados)
 
         # gravando no bd
@@ -42,11 +42,13 @@ class DBconnect(object):
         conn = sqlite3.connect('feed_list.db')
         cursor = conn.cursor()
         cursor.execute("""
-        SELECT * FROM feed;
+        SELECT id,nome FROM feed;
         """)
+
 
         for linha in cursor.fetchall():
             print(linha)
+	    
 
         conn.close()
 
