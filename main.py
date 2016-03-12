@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-#python_version  :3.4
 import feedparser
 import urllib
 import urllib.request
-#from dbconnect import DBconnect
 
 def feed_in(url):
 
@@ -25,8 +22,6 @@ def download(nome,arquivo):
     arq.write(html)
     arq.close()
 
-
-
 def limpar_link(mp3):
     mp3 =mp3.split(".mp3")[0]
     mp3 = mp3.split("http://")[-1]
@@ -39,46 +34,19 @@ def limpar_link(mp3):
         mp3 = mp3 + ".mp3"
 
     return mp3
-
-###############################################################################
-#url = 'http://feeds.feedburner.com/rapaduracast'
-#d, nprogramas = feed_in(url)
-#download("teste","http://www.seresrapadurianos.net/casts/rapaduracast_456-oscar2016.mp3")
-
-#db = DBconnect
-#teste = "rtdesfsd"
-
-#db.insert_feed(d.feed.title,d.feed.link,d.feed.subtitle,url,teste)
-
-
-
-######################################################################################
-#escolha_feed = input('1. Salvar um novo feed\n2. Usar feed existente: ')
-#if escolha_feed == 1:
-    #url = input("Insira link do feed: ")
-    #url = 'http://feeds.feedburner.com/rapaduracast'
-#    d, nprogramas = feed_in(url)
- #   db = DBconnect
-
-
-
-
-
-
-#######################################################################################
 t=0
 lista = {}
 lista_de_escolha = []
 numeros = 0
 
-url = 'feeds.feedburner.com/hack-n-cast'
-#url = input("Insira link do site: ")
+url = input("Insira link do site: ")
 
+if not url:
+    url = 'http://jovemnerd.com.br/categoria/nerdcast/feed/'
+    
 d, nprogramas = feed_in(url)
-
 pesquisa  = input ("Nome do EP: ")
 pesquisa = str.title(pesquisa)
-
 
 print ('- ID - ')
 try:
