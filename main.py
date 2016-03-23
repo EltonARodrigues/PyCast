@@ -1,91 +1,34 @@
+# -*- coding: utf-8 -*-
 import feedparser
 import urllib
 import urllib.request
+from modulos.modulos_main import Modulos
+#import pdb; pdb.set_trace()
 
-def feed_in(url):
+if __name__ == '__main__':
 
-    if str.find(url,"http://") !=  False:
-        url = "http://" + url
-    print("Carregando feed...")
-    d = feedparser.parse(url)
-    nprogramas = int((len(d['entries'])))
+    #ipdb.set_trace()a
+    print("""
+               ____        ______              __
+              / __ \__  __/ ____/__  ___  ____/ /
+             / /_/ / / / / /_  / _ \/ _ \/ __  /
+            / ____/ /_/ / __/ /  __/  __/ /_/ /
+           /_/    \__  /_/    \___/\___/\____/
+                 /____/
 
-    return d, nprogramas
+            """)
 
-def download(nome,arquivo):
-    html=urllib.request.urlopen(arquivo).read()
+    m = Modulos()
 
-    if str.find(nome,".mp3") == False:
-        nome = nome + ".mp3"
+    url = input("Insira URL do feed: ")
+    #url = 'http://feeds.feedburner.com/jack-animeclub'
+    #url = "http://feed.nerdcast.com.br"
 
-    arq = open(nome, "wb")
-    arq.write(html)
-    arq.close()
+    pesquisa  = input ("Nome do EP: ")
+    pesquisa = str.title(pesquisa)
 
-def limpar_link(mp3):
-    mp3 =mp3.split(".mp3")[0]
-    mp3 = mp3.split("http://")[-1]
-
-    if str.find(mp3,"http://") !=  0:
-        mp3 = "http://" + mp3
-
-
-    if str.find(mp3,".mp3") == -1:
-        mp3 = mp3 + ".mp3"
-
-    return mp3
-t=0
-lista = {}
-lista_de_escolha = []
-numeros = 0
-
-url = input("Insira link do site: ")
-
-if not url:
-    url = 'http://jovemnerd.com.br/categoria/nerdcast/feed/'
-    
-d, nprogramas = feed_in(url)
-pesquisa  = input ("Nome do EP: ")
-pesquisa = str.title(pesquisa)
-
-print ('- ID - ')
-try:
-    for i in range(nprogramas):
-
-        titulo = (d['entries'][i]['title'])
-
-        if str.find(titulo,pesquisa) != -1:
-
-            valor_pesquisa = i
-            lista[int(t)] = i
-            t += 1
-            lista_de_escolha += [i]
-            numeros +=  1
-            print ('"',i,'" | ',d['entries'][i]['title'])
-
-
-    if numeros > 1:
-
-        escolha = 0
-        escolha = input("Escolha um episódio pelo ID: ")
-        escolha = int(escolha)
-        valor_pesquisa = 'vazio'
-
-        for c in range(0,numeros):
-
-            if lista_de_escolha[c]==escolha:
-                valor_pesquisa = escolha
-
-        if valor_pesquisa == 'vazio':
-            print ('Escolha não existe')
-            exit()
-
-
-    mp3 = str(d['entries'][valor_pesquisa]['enclosures'])
-    nome = d['entries'][valor_pesquisa]['title']
-
-
-    print (nome)
+    nome_mp3, mp3 = m.pesquisa_pod(m.feed_in(url),pesquisa)
+    #print ("\n{}\n".forma(nome_mp3))
 
     dow = input("Deseja realizar o download desse podcast(sim/nao): ")
     dow = str.upper(dow)
@@ -93,9 +36,6 @@ try:
     if dow == "SIM":
 
         print ("Realizando Download...")
-        download(nome,limpar_link(mp3))
+        m.download(nome_mp3,m.limpar_link(mp3))
 
     print("Saindo....")
-
-except NameError:
-    print("Nome não encontrado...realizar pesquisa novamentes")
