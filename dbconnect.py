@@ -5,55 +5,39 @@ import sqlite3
 
 class DBconnect(object):
 
-    def insert_feed(title,url,subtitle,link):
+    def insert_feed(self,nome,url,link):
+        print(nome)
+        print(url)
+        print(link)
+        #lista = [(nome,url,link)]
+               
 
-        #if str.find(url,"http://") !=  False:
-        #    url = "http://" + url
-
-        #print("Carregando feed...")
-
-        #d = feedparser.parse(url)
-        #teste = "fdsfsdfds"
-        dados = [(title,url,subtitle,link)]
-
-        # conectando BD
-        #conn = sqlite3.connect('feed_list.db')
-        #cursor = conn.cursor()
-        # inserindo dados na tabela
         conn = sqlite3.connect('feed_list.db')
         cursor = conn.cursor()
 
-        cursor.executemany("""
-        INSERT INTO feed (nome, url, subtitle, link)
-        VALUES (?,?,?,?)
-        """,dados)
-
-        # gravando no bd
-        conn.commit()
+        # inserindo dados na tabela
+        cursor.execute("""
+        INSERT INTO feed (nome,url,link)
+                VALUES (?,?,?)
+                """,nome,url,link)
         conn.close()
-
-        print('Dados inseridos com sucesso.')
-
-        #conn.close()
-
-    def select_feed():
-
+    def select_feed(self):
+        print("teste")
         # lendo os dados
         conn = sqlite3.connect('feed_list.db')
         cursor = conn.cursor()
         cursor.execute("""
         SELECT id,nome FROM feed;
         """)
-
-
-        for linha in cursor.fetchall():
-            print(linha)
-	    
-
+        for linha in cursor.fetchall:
+            print(linha[0])
+            print(linha[1])
+            print(linha[2])
+             
         conn.close()
 
         #conn.close()
-    select_feed()
+    #select_feed()
     '''# conectando BD
     conn = sqlite3.connect('feed_list.db')
     cursor = conn.cursor()
