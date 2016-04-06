@@ -25,22 +25,22 @@ if __name__ == '__main__':
 
     id_p = 'n'
     while id_p == 'n':
-        cont_p = db.select_feed()    
+        cont_p = db.select_feed()
         id_p = input("Digite o ID ou (n) para novo podcast: ")
         print(cont_p)
         if id_p == 'n' or id_p == 'N':
-            
+
             url = 'http://feeds.feedburner.com/jack-animeclub'
-            
+
             d = feedparser.parse(url)
             link_p = d.feed.title_detail.base
             title_p = d.feed.title_detail.value
             url_site =  d.feed.link
-            db.insert_feed(title_p,url_site,link_p)        
+            db.insert_feed(title_p,url_site,link_p)
             os.system('clear')
 
         else:
-            url = db.select_feedpod(id_p)   
+            url = db.select_feedpod(id_p)
 
 
     pesquisa  = input ("Nome do EP: ")
