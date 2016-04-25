@@ -26,11 +26,11 @@ if __name__ == '__main__':
     id_p = 'n'
     while id_p == 'n':
         cont_p = db.select_feed()
-        id_p = input("Digite o ID ou (n) para novo podcast: ")
+        id_p = input("Type it ID or (n) for new feed: ")
         print(cont_p)
         if id_p == 'n' or id_p == 'N':
 
-            url = 'http://feeds.feedburner.com/jack-animeclub'
+            url = input("Insert Feed URL: ")
 
             d = feedparser.parse(url)
             link_p = d.feed.title_detail.base
@@ -43,18 +43,18 @@ if __name__ == '__main__':
             url = db.select_feedpod(id_p)
 
 
-    pesquisa  = input ("Nome do EP: ")
-    pesquisa = str.title(pesquisa)
+    search  = input ("Episode name: ")
+    search = str.title(search)
 
-    nome_mp3, mp3 = m.pesquisa_pod(m.feed_in(url),pesquisa)
-    print ("\n{}\n".format(nome_mp3))
+    name_mp3, mp3 = m.pesquisa_pod(m.feed_in(url),search)
+    print ("\n{}\n".format(name_mp3))
 
-    dow = input("Deseja realizar o download desse podcast(sim/nao): ")
+    dow = input("Want to Do Download this podcast ( Yes / No) : ")
     dow = str.upper(dow)
 
-    if dow == "SIM":
+    if dow == "YES":
 
-        print ("Realizando Download...")
-        m.download(nome_mp3,m.limpar_link(mp3))
+        print ("Downloading..... ")
+        m.download(name_mp3,m.limpar_link(mp3))
 
-    print("Saindo....")
+    print("Exiting....")

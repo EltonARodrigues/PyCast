@@ -11,21 +11,23 @@ class Modulos:
             url = "http://" + url
         print("Carregando feed...")
         d = feedparser.parse(url)
-        nprogramas = int((len(d['entries'])))
+        n_epsodes = int((len(d['entries'])))
 
-        return d, nprogramas
+        return d, n_epsodes
 
-    def download(self,nome,arquivo):
-        html=urllib.request.urlopen(arquivo).read()
+    def download(self,name,file):
 
-        if str.find(nome,".mp3") == False:
-            nome = nome + ".mp3"
+        html=urllib.request.urlopen(file).read()
 
-        arq = open(nome, "wb")
+        if str.find(name,".mp3") == False:
+            name = name + ".mp3"
+
+        arq = open(name, "wb")
         arq.write(html)
         arq.close()
 
     def limpar_link(self,mp3):
+
         mp3 =mp3.split(".mp3")[0]
         mp3 = mp3.split("http://")[-1]
 
@@ -38,38 +40,38 @@ class Modulos:
 
         return mp3
 
-    def pesquisa_pod(self,feed,pesquisa):
-        d, nprogramas = feed
-        lista = {}
-        quant_resultados = 0
+    def pesquisa_pod(self,feed,search):
 
+        d, n_epsodes = feed
+        list_q = {}
+        quant_episodes = 0
+       
         #try:
-        for i in range(nprogramas):
-
+        for i in range(n_epsodes):
             titulo = (d['entries'][i]['title'])
+    
+            if str.find(str.upper(titulo),str.upper(search)) != -1:
+               
+                search_value = i
+                list_q[int(quant_episodes)] = i
+                quant_episodes +=  1
+                print ("|{}|".format(i)," {}".format(d['entries'][i]['title']))
 
-            if str.find(str.upper(titulo),str.upper(pesquisa)) != -1:
-                print("teste")
-                valor_pesquisa = i
-                lista[int(quant_resultados)] = i
-                quant_resultados +=  1
-                print ('"',i,'" | ',d['entries'][i]['title'])
+        if quant_episodes > 1:
 
-        if quant_resultados > 1:
-
-            escolha = input("Escolha um episódio pelo ID: ")
+            choice = input("Escolha um episódio pelo ID: ")
             #ERRO DE TIPO ARRUMAR COM escolha = int(escolha)
 
-            for quant in range(0,quant_resultados):
+            for quant in range(0,quant_episodes):
 
-                if lista[quant]==escolha:
-                    valor_pesquisa = int(escolha)
-                #print(lista[quant])
+                if list_q[quant]==choice:
+                    search_value = int(choice)
+                print(search_value)
 
-            if valor_pesquisa == 'vazio':
+            if search_value == 'vazio':
                 print ('Escolha não existe')
                 exit()
 
-        mp3 = str(d['entries'][valor_pesquisa]['enclosures'])
-        nome = str(d['entries'][valor_pesquisa]['title'])
-        return nome, mp3
+        mp3 = str(d['entries'][search_value]['enclosures'])
+        name = str(d['entries'][search_value]['title'])
+        return name, mp3
