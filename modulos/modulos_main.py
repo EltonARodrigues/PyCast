@@ -45,8 +45,8 @@ class Modulos:
         d, n_epsodes = feed
         list_q = {}
         quant_episodes = 0
-       
-        #try:
+        error_search = 0
+
         for i in range(n_epsodes):
             titulo = (d['entries'][i]['title'])
     
@@ -55,23 +55,31 @@ class Modulos:
                 search_value = i
                 list_q[int(quant_episodes)] = i
                 quant_episodes +=  1
+                
                 print ("|{}|".format(i)," {}".format(d['entries'][i]['title']))
 
         if quant_episodes > 1:
 
             choice = input("Escolha um episódio pelo ID: ")
-            #ERRO DE TIPO ARRUMAR COM escolha = int(escolha)
 
             for quant in range(0,quant_episodes):
 
                 if list_q[quant]==choice:
                     search_value = int(choice)
-                print(search_value)
 
-            if search_value == 'vazio':
-                print ('Escolha não existe')
-                exit()
+        elif quant_episodes < 1: 
 
-        mp3 = str(d['entries'][search_value]['enclosures'])
-        name = str(d['entries'][search_value]['title'])
-        return name, mp3
+            error_search = 1
+            mp3 = None
+            name = None
+            
+        if error_search != 1:
+
+            mp3 = str(d['entries'][search_value]['enclosures'])
+            name = str(d['entries'][search_value]['title'])
+
+        return mp3, name, error_search
+        
+        
+        
+        
