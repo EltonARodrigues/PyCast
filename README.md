@@ -1,9 +1,14 @@
-<<<<<<< HEAD
-#PyFeed - Script Podcast
-=======
-# PyFeed 
 
-Gerenciador de Podcasts em Python :speaker: :speaker:
+#PyFeed - Script Podcast
+
+Python podcast manager in terminal
+
+#Requirements
+
+- Python 3+ (Python 2.7 not working) 
+- Sqlite3
+- library Feedparser 5.2.1(pip install feedparser)
+
 
 ##Ajude com o projeto!
 
