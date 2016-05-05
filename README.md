@@ -9,8 +9,16 @@ Python podcast manager in terminal
 - Sqlite3
 - library Feedparser 5.2.1(pip install feedparser)
 
+##Structure
+.
+├── dbc.py
+├── feed_list.db
+├── LICENSE
+├── modulos
+│   ├── __init__.py
+│   └── modulos_main.py
+├── PyCast.py
+└── README.md
 
-##Ajude com o projeto!
+##Help the project
 
-![gpl](https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/GPLv3_Logo.svg/180px-GPLv3_Logo.svg.png)
->>>>>>> f0b8eb1e5a6fd988a2c91fa696597e3dd0e64eb9
