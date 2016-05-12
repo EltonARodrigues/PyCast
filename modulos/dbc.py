@@ -5,7 +5,6 @@ import sqlite3
 
 class DBconnect(object):
 
-    db = DBconnect()
     
     def insert_feed(self,p_nome,p_url,p_link):
         print(p_nome)
@@ -59,12 +58,7 @@ class DBconnect(object):
         #for url in cursor.fetchall():
 
         conn.close()
-        
-        if check_url == None:
-            return 1
-
-        else:
-            return link_pesq
+        return link_pesq
 
     def check_link_feed(self,url):
         cont = 0 

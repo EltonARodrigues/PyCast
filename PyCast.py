@@ -1,34 +1,31 @@
 # -*- coding: utf-8 -*-
-import feedparser
-import urllib
-import urllib.request
+
 from modulos.modulos_main import Modulos
-from dbc import DBconnect
+from modulos.dbc import DBconnect
 import os 
-import time
 
 if __name__ == '__main__':
-
     
-    print("""
-             ____         ____          _   
-            |  _ \ _   _ / ___|__ _ ___| |_ 
-            | |_) | | | | |   / _` / __| __|
-            |  __/| |_| | |__| (_| \__ \ |_ 
-            |_|    \__, |\____\__,_|___/\__|
-                    |___/
-            """)
-
-    m = Modulos()
-    db = DBconnect()
-
+    os.system('clear')
     id_p = 'n'
-
     while id_p == 'n':
+
+        print("""
+                 ____         ____          _   
+                |  _ \ _   _ / ___|__ _ ___| |_ 
+                | |_) | | | | |   / _` / __| __|
+                |  __/| |_| | |__| (_| \__ \ |_ 
+                |_|    \__, |\____\__,_|___/\__|
+                        |___/
+                """)
+
+        m = Modulos()
+        db = DBconnect()
+
         try:
         
             cont_p = db.select_feed()
-            id_p = input("Type it ID or (n) for new feed: ")
+            id_p = input("\nType it ID or (n) for new feed: ")
 
             if id_p == 'n' or id_p == 'N':
 
@@ -36,18 +33,18 @@ if __name__ == '__main__':
 
                 try:
 
-                    d = feedparser.parse(url)
-                    print(d.feed.title_detail)
-                    link_p = d.feed.title_detail.base
-                    title_p = d.feed.title_detail.value
-                    url_site =  d.feed.link
-                    db.insert_feed(title_p,url_site,link_p)
-                    os.system('clear')
+                    if db.check_link_feed(url) == 0:
+                        os.system('clear')
+                        print('\t\t\t\t\tFeed Já Existente')
 
+                    else:
+    
+                        m.add_feed(url)
+                        
                 except AttributeError:
 
                     os.system('clear')
-                    print("Link de feed invalido")
+                    print("\t\t\t\t\tLink de feed invalido")
             else:
 
                 url = db.select_feedpod(id_p)
@@ -55,16 +52,14 @@ if __name__ == '__main__':
         except IndexError:
 
             os.system('clear')
-            print("Id nao encontrado")
-            id_p = 'n'   
-    
+            print("\t\t\t\t\tId nao encontrado")
+            #id_p = 'n'   
+            
     while 1:
+
 
         search  = input ("Episode name: ")
         search = str.title(search)
-
-
-
 
         mp3, name_mp3, error_search = m.pesquisa_pod(m.feed_in(url),search)
         
@@ -72,7 +67,7 @@ if __name__ == '__main__':
             break
         
         os.system('clear')
-        print('Episodio Nao Encontrado!')
+        print('\t\t\t\t\tEpisodio Nao Encontrado!')
 
             
     print ("\n{}\n".format(name_mp3))
@@ -82,7 +77,9 @@ if __name__ == '__main__':
     if dow == "YES":
 
         print ("Downloading..... ")
-        m.download(name_mp3,m.limpar_link(mp3))
+
+        nome_podcast = m.search_name_podcast(url)
+        m.download(name_mp3,m.limpar_link(mp3),nome_podcast)
 
     print("Exiting....")
     

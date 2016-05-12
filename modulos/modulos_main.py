@@ -1,9 +1,27 @@
+import os
 import feedparser
 import urllib
 import urllib.request
-
+from modulos.dbc import DBconnect
 
 class Modulos:
+
+    def add_feed(self,url):
+    
+        d = feedparser.parse(url)
+        print(d.feed.title_detail)
+        link_p = d.feed.title_detail.base
+        title_p = d.feed.title_detail.value
+        url_site =  d.feed.link
+        db.insert_feed(title_p,url_site,link_p)
+        os.system('clear')
+
+    def search_name_podcast(self,url):
+
+        d = feedparser.parse(url)
+        title_p = d.feed.title_detail.value
+
+        return title_p
 
     def feed_in(self,url):
 
@@ -15,14 +33,22 @@ class Modulos:
 
         return d, n_epsodes
 
-    def download(self,name,file):
+    def download(self,name,file,nome_podcast):
 
         html=urllib.request.urlopen(file).read()
 
         if str.find(name,".mp3") == False:
             name = name + ".mp3"
 
-        arq = open(name, "wb")
+        d = ('PodCast/' + nome_podcast + '/')
+        print(d)
+
+        if not os.path.exists(d):
+            os.makedirs(d)
+
+        print(d+name)
+
+        arq = open(d+name, "wb")
         arq.write(html)
         arq.close()
 
