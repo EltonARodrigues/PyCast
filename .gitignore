@@ -8,3 +8,5 @@ md.py
 .myfeed/
 .venv_dev/
 .venvteste/
+PodCast/
+modulos/__pycache__/
