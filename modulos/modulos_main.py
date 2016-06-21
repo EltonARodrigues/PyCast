@@ -7,41 +7,38 @@ from modulos.dbc import DBconnect
 
 class Modulos():
 
-    def add_feed(self, url):
+    def __init__(self,url):
+        self.url = url
+        self.d = feedparser.parse(url)
+        self.link_p = self.d.feed.title_detail.base
+        self.title_p = self.d.feed.title_detail.value
+        self.url_site = self.d.feed.link
+    
+    def add_feed(self):
 
         db = DBconnect()
 
-        d = feedparser.parse(url)
-        print(d.feed.title_detail)
-        link_p = d.feed.title_detail.base
-        title_p = d.feed.title_detail.value
-        url_site = d.feed.link
-        db.insert_feed(title_p, url_site, link_p)
+        print(self.d.feed.title_detail)
+        db.insert_feed(self.title_p, self.url_site, self.link_p)
         os.system('clear')
 
-    def search_name_podcast(self, url):
+    def feed_in(self):
 
-        d = feedparser.parse(url)
-        title_p = d.feed.title_detail.value
-
-        return title_p
-
-    def feed_in(self, url):
-
-        if str.find(url, "http://") != False:
-            url = "http://" + url
+        if str.find(self.url, "http://") != False:
+            self.url = "http://" + self.url
         print("Loading feed...")
-        d = feedparser.parse(url)
-        n_epsodes = int((len(d['entries'])))
 
-        return d, n_epsodes
+        n_epsodes = int((len(self.d['entries'])))
+        return self.d, n_epsodes
 
     def download(self, name, file, podcast_name):
 
         html = urllib.request.urlopen(file).read()
+        name = name + ".mp3"
 
-        if str.find(name, ".mp3") == False:
-            name = name + ".mp3"
+        #remove / filename
+        if str.find(name, ","):
+            name = name.replace('/','')
 
         d = ('PodCast/' + podcast_name + '/')
 

@@ -19,7 +19,6 @@ if __name__ == '__main__':
                         |___/
                 """)
 
-        m = Modulos()
         db = DBconnect()
 
         try:
@@ -43,7 +42,7 @@ if __name__ == '__main__':
 
                     else:
 
-                        m.add_feed(url)
+                        Modulos(url).add_feed()
 
                 except AttributeError:
 
@@ -58,12 +57,14 @@ if __name__ == '__main__':
             os.system('clear')
             print("\t\t\t\t\tID not found")
 
+    m = Modulos(url)
+
     while 1:
 
         search = input("Episode name: ")
         search = str.title(search)
 
-        mp3, name_mp3, error_search = m.search_pod(m.feed_in(url), search)
+        mp3, name_mp3, error_search = m.search_pod(m.feed_in(), search)
 
         if error_search != 1:
             break
@@ -79,7 +80,7 @@ if __name__ == '__main__':
 
         print("Downloading..... ")
 
-        nome_podcast = m.search_name_podcast(url)
-        m.download(name_mp3, m.clear_link(mp3), nome_podcast)
+        podcast_name = m.title_p
+        m.download(name_mp3, m.clear_link(mp3), podcast_name)
 
     print("Exiting....")
