@@ -2,7 +2,7 @@ import os
 import feedparser
 import urllib
 import urllib.request
-from modulos.dbc import DBconnect
+from modulos.csvimport import CSVfeed
 
 
 class Modulos():
@@ -16,10 +16,10 @@ class Modulos():
     
     def add_feed(self):
 
-        db = DBconnect()
+        CSV = CSVfeed()
 
         print(self.d.feed.title_detail)
-        db.insert_feed(self.title_p, self.url_site, self.link_p)
+        CSV.new_feed(self.title_p,self.link_p)                #db.insert_feed(self.title_p, self.url_site, self.link_p)
         os.system('clear')
 
     def feed_in(self):
@@ -35,7 +35,7 @@ class Modulos():
 
         html = urllib.request.urlopen(file).read()
         name = name + ".mp3"
-
+        print(file)
         #remove / filename
         if str.find(name, ","):
             name = name.replace('/','')

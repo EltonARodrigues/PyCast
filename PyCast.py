@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from modulos.modulos_main import Modulos
-from modulos.dbc import DBconnect
+from modulos.dbc import CSVfeed
 import os
+import csv
 
 if __name__ == '__main__':
 
@@ -19,11 +20,12 @@ if __name__ == '__main__':
                         |___/
                 """)
 
-        db = DBconnect()
+        CSV = CSVfeed()
+        CSV.file_csv()
 
         try:
 
-            cont_p = db.select_feed()
+            cont_p = CSV.select() #db.select_feed()
             if cont_p != -1:
                 
                 id_p = input("\nType it ID or (n) for new feed: ")
@@ -35,8 +37,7 @@ if __name__ == '__main__':
                 url = input("Insert Feed URL: ")
 
                 try:
-
-                    if db.check_link_feed(url) == 0:
+                    if CSV.verify(url) == 0: 
                         os.system('clear')
                         print('\t\t\t\t\tFeed already added')
 
@@ -50,7 +51,7 @@ if __name__ == '__main__':
                     print("\t\t\t\t\tfeed link invalid")
             else:
 
-                url = db.select_feedpod(id_p)
+                url = CSV.get_url(id_p)            #db.select_feedpod(id_p)
 
         except IndexError:
 
