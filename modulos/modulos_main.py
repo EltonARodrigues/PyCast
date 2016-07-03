@@ -2,10 +2,10 @@ import os
 import feedparser
 import urllib
 import urllib.request
-from modulos.csvimport import CSVfeed
+from modulos.csv_import import CSVfeed
 
 
-class Modulos():
+class Modulos:
 
     def __init__(self,url):
         self.url = url

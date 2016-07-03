@@ -31,9 +31,8 @@ class CSVfeed:
         with open('Podcasts.csv') as csvfile:
             cast_reader = csv.reader(csvfile)
             for row in cast_reader:
-                print('|\t{}\t{}\t{}\t'.format(row[0], row[1]))
+                print('|\t{}\t{}\t'.format(row[0], row[1]))
                 cont = cont + 1
-
         return cont
 
     def verify(self, feed):

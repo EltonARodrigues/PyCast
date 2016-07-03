@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from modulos.modulos_main import Modulos
-from modulos.dbc import CSVfeed
+from modulos.csv_import import CSVfeed
 import os
 import csv
 
@@ -24,7 +24,6 @@ if __name__ == '__main__':
         CSV.file_csv()
 
         try:
-
             cont_p = CSV.select() #db.select_feed()
             if cont_p != -1:
                 
@@ -37,7 +36,7 @@ if __name__ == '__main__':
                 url = input("Insert Feed URL: ")
 
                 try:
-                    if CSV.verify(url) == 0: 
+                    if CSV.verify(url) == 0:
                         os.system('clear')
                         print('\t\t\t\t\tFeed already added')
 
@@ -73,7 +72,7 @@ if __name__ == '__main__':
         os.system('clear')
         print('\t\t\t\t\tEpisode not found!')
 
-    print("\n{}\n".format(name_mp3))
+    print("\n{}\n".format(name_mp3)) #APAGAR LINHA 
     dow = input("Want to Do Download this podcast ( Yes / No) : ")
     dow = str.upper(dow)
 
