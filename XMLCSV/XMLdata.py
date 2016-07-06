@@ -2,10 +2,10 @@ import os
 import feedparser
 import urllib
 import urllib.request
-from modulos.csv_import import CSVfeed
+from XMLCSV.csv_import import CSVfeed
 
 
-class Modulos:
+class XMLdata:
 
     def __init__(self,url):
         self.url = url
@@ -17,10 +17,7 @@ class Modulos:
     def add_feed(self):
 
         CSV = CSVfeed()
-
-        print(self.d.feed.title_detail)
-        CSV.new_feed(self.title_p,self.link_p)                #db.insert_feed(self.title_p, self.url_site, self.link_p)
-        os.system('clear')
+        CSV.new_feed(self.title_p,self.link_p)
 
     def feed_in(self):
 
@@ -76,7 +73,7 @@ class Modulos:
                 list_q[int(quant_episodes)] = i
                 quant_episodes += 1
 
-                print("|{}|".format(i), " {}".format(d['entries'][i]['title']))
+                print("|{}|".format(i), "\t{}".format(d['entries'][i]['title']))
 
         if quant_episodes > 1:
 

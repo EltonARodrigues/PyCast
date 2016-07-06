@@ -1,21 +1,21 @@
 import csv
+import os.path
 
 class CSVfeed:
     def file_csv(self):
-        import os.path
         file = os.path.isfile('Podcasts.csv')
         if not file:
             with open('Podcasts.csv', 'a') as csvfile:
-                csv_writer = csv.writer(csvfile)
-                csv_writer.writerow(['0','0','0'])
+                '''csv_writer = csv.writer(csvfile)
+                csv_writer.writerow()'''
 
-    def new_feed(id_p,name,feed):
+
+    def new_feed(self,name,feed):
 
         id_p = 0
         with open('Podcasts.csv') as csvfile:
             cast_reader = csv.reader(csvfile)
             for row in cast_reader:
-                print(row)
                 id_p = int(row[0])
             if id_p != 0:
                 id_p += 1
@@ -24,7 +24,7 @@ class CSVfeed:
             csv_writer.writerow([id_p,name,feed])
 
     def select(self):
-        cont = 0
+        cont = -1
 
         print("\tID\tPodCast\t")
         print("-" * 39)
@@ -32,17 +32,17 @@ class CSVfeed:
             cast_reader = csv.reader(csvfile)
             for row in cast_reader:
                 print('|\t{}\t{}\t'.format(row[0], row[1]))
-                cont = cont + 1
+                cont += 1
         return cont
 
     def verify(self, feed):
-        check_url = 1
+        check_url = False
 
         with open('Podcasts.csv') as csvfile:
             cast_reader = csv.reader(csvfile)
             for row in cast_reader:
                 if row[2] == feed:
-                    check_url = 0
+                    check_url = True
 
         return check_url
 
@@ -53,3 +53,16 @@ class CSVfeed:
             for row in users_reader:
                 if(row[0] == id_p):
                     return row[2]
+
+    def remove(self,id_remove):
+        teste = list()
+        with open('Podcasts.csv', 'r') as csvfile:
+            users_reader = csv.reader(csvfile)
+            for row in users_reader:
+                if row[0] != id_remove:
+                    teste.append(row)
+
+        with open('Podcasts.csv', 'w') as file_handler:
+            csv_writer = csv.writer(file_handler)
+            for row in teste:
+                csv_writer.writerow(row)
