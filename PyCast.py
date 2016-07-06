@@ -31,13 +31,7 @@ if __name__ == '__main__':
                 if type(id_p) is str:
                     id_p = id_p.lower()
 
-            if id_p == 'remove':
-                id_remove = input("Insert ID to remove feed: ")
-                CSV.remove(id_remove)
-                id_p = 'continue'
-                os.system('clear')
-
-            elif id_p == 'new':
+            if id_p == 'new' or id_p == 'continue':
 
                 url = input("Insert Feed URL: ")
 
@@ -52,14 +46,22 @@ if __name__ == '__main__':
                 else:
                     XMLdata(url).add_feed()
                 id_p = 'continue'
-            else:
+                os.system('clear')
+                
+            if id_p == 'remove':
+                id_remove = input("Insert ID to remove feed: ")
+                CSV.remove(id_remove)
+                id_p = 'continue'
+                os.system('clear')
 
+            else:
                 url = CSV.get_url(id_p)
-            
+
         except IndexError:
 
             os.system('clear')
             print("\t\t\t\t\tID not found")
+            id_p = 'continue'
 
     
 

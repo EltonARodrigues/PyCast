@@ -5,10 +5,8 @@ class CSVfeed:
     def file_csv(self):
         file = os.path.isfile('Podcasts.csv')
         if not file:
-            with open('Podcasts.csv', 'a') as csvfile:
-                '''csv_writer = csv.writer(csvfile)
-                csv_writer.writerow()'''
-
+            f = open ('Podcasts.csv', 'w') 
+            f.close () 
 
     def new_feed(self,name,feed):
 
@@ -17,8 +15,8 @@ class CSVfeed:
             cast_reader = csv.reader(csvfile)
             for row in cast_reader:
                 id_p = int(row[0])
-            if id_p != 0:
-                id_p += 1
+            
+            id_p += 1
         with open('Podcasts.csv', 'a') as file_handler:
             csv_writer = csv.writer(file_handler)
             csv_writer.writerow([id_p,name,feed])
