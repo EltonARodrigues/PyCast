@@ -6,7 +6,7 @@ Python podcast manager in terminal
 #Requirements
 
 - Python 3+ (Python 2.7 is not working) 
-- Sqlite3
+- csv (1.0) 
 - library Feedparser 5.2.1(pip install feedparser)
 
 ##Structure
