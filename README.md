@@ -12,15 +12,15 @@ Python podcast manager in terminal
 ##Structure
 ```
 .
-├── dbc.py
-├── feed_list.db
+├── CONTRIBUTORS.md
 ├── LICENSE
-├── modulos
-│   ├── __init__.py
-│   └── modulos_main.py
 ├── PyCast.py
-└── README.md
-
+├── README.md
+├── requirements.txt
+└── XMLCSV
+    ├── csv_import.py
+    ├── __init__.py
+    └── XMLdata.py
 ```
 ##Help the project
 
