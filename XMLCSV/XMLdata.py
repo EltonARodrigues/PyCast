@@ -20,10 +20,7 @@ class XMLdata:
         CSV.new_feed(self.title_p,self.link_p)
 
     def feed_in(self):
-
-        if str.find(self.url, "http://") != False:
-            self.url = "http://" + self.url
-        print("Loading feed...")
+        print('Loading feed...')
 
         n_epsodes = int((len(self.d['entries'])))
         return self.d, n_epsodes
@@ -31,10 +28,10 @@ class XMLdata:
     def download(self, name, file, podcast_name):
 
         html = urllib.request.urlopen(file).read()
-        name = name + ".mp3"
-        print(file)
+        name = name + '.mp3'
+
         #remove / filename
-        if str.find(name, ","):
+        if str.find(name, ','):
             name = name.replace('/','')
 
         d = ('PodCast/' + podcast_name + '/')
@@ -42,19 +39,19 @@ class XMLdata:
         if not os.path.exists(d):
             os.makedirs(d)
 
-        arq = open(d + name, "wb")
+        arq = open(d + name, 'wb')
         arq.write(html)
         arq.close()
 
     def clear_link(self, mp3):
-        mp3 = mp3.split(".mp3")[0]
-        mp3 = mp3.split("http://")[-1]
+        mp3 = mp3.split('.mp3')[0]
+        mp3 = mp3.split('http://')[-1]
 
-        if str.find(mp3, "http://") != 0:
-            mp3 = "http://" + mp3
+        if str.find(mp3, 'http://') != 0:
+            mp3 = 'http://' + mp3
 
-        if str.find(mp3, ".mp3") == -1:
-            mp3 = mp3 + ".mp3"
+        if str.find(mp3, '.mp3') == -1:
+            mp3 = mp3 + '.mp3'
 
         return mp3
 
@@ -76,13 +73,20 @@ class XMLdata:
                 print("|{}|".format(i), "\t{}".format(d['entries'][i]['title']))
 
         if quant_episodes > 1:
+            find = False
+            while 1:
+                choice = input('Insert Episode ID: ')
 
-            choice = input("Insert Episode ID: ")
+                for quant in range(0, quant_episodes):
+                    if str(list_q[quant]) == choice:
+                        search_value = int(choice)
+                        find = True
 
-            for quant in range(0, quant_episodes):
-
-                if list_q[quant] == choice:
-                    search_value = int(choice)
+                if find == True:
+                    break
+                    
+                else:
+                    print('\t\t\t\t\tInsert Error... Try Again!')
 
         elif quant_episodes < 1:
 
@@ -94,5 +98,6 @@ class XMLdata:
 
             mp3 = str(d['entries'][search_value]['enclosures'])
             name = str(d['entries'][search_value]['title'])
+            print(name)
 
         return mp3, name, error_search
