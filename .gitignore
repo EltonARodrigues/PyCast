@@ -12,4 +12,4 @@ PodCast/
 modulos/__pycache__/
 feed_list.db
 Podcasts.csv
-
+*.csv

@@ -11,7 +11,7 @@ class Pycast(object):
         self.url = str
         self.exit = False
         self.id_p = 'continue'
-        
+
     def main(self):
         while self.id_p == 'continue':
             print("""
@@ -37,11 +37,12 @@ class Pycast(object):
                 if self.id_p == 'new' or self.id_p == 'continue':
 
                     self.url = input("Insert Feed URL: ")
+                    
+                    if str.find(self.url, "https://") != 0:
+                        if str.find(self.url, "http://") != 0:
+                            self.url = "http://" + self.url
 
-                    if str.find(self.url, "http://") != False:
-                        self.url = "http://" + self.url
-
-                    elif CSV.verify(self.url) is True:
+                    if CSV.verify(self.url) is True:
                         os.system('clear')  
                         print('\t\t\t\t\tFeed already added')   
                     else:
@@ -92,7 +93,7 @@ class Pycast(object):
                     break
 
                 mp3, name_mp3, error_search = m.search_pod(m.feed_in(), search)
-
+                
                 if error_search != 1:
                     break
 
@@ -111,7 +112,7 @@ class Pycast(object):
                     m.download(name_mp3, m.clear_link(mp3), podcast_name)
                     self.id_p = 'continue'
                     os.system('clear')
-                    print('\t\t\tDownload Complete - ' + name_mp3)
+                    print('\tDownload Complete - ' + name_mp3)
 
                 elif dow == 'NO':
                     self.id_p = 'continue'

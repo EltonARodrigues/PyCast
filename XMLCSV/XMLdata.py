@@ -1,7 +1,7 @@
 import os
 import feedparser
 import urllib
-import urllib.request
+from urllib.request import Request, urlopen
 from XMLCSV.csv_import import CSVfeed
 
 
@@ -26,8 +26,11 @@ class XMLdata:
         return self.d, n_epsodes
 
     def download(self, name, file, podcast_name):
+        #html = urllib.request.urlopen(file).read()
 
-        html = urllib.request.urlopen(file).read()
+        req = Request(file, headers={'User-Agent': 'Mozilla/5.0'})
+        html = urlopen(req).read()
+
         name = name + '.mp3'
 
         #remove / filename
@@ -44,12 +47,15 @@ class XMLdata:
         arq.close()
 
     def clear_link(self, mp3):
-        mp3 = mp3.split('.mp3')[0]
-        mp3 = mp3.split('http://')[-1]
-
-        if str.find(mp3, 'http://') != 0:
+        if mp3.find('https://') != -1:
+            mp3 = mp3.split('https://')[-1]
+            mp3 = 'https://' + mp3
+        
+        elif mp3.find('http://') != -1:
+            mp3 = mp3.split('http://')[-1]
             mp3 = 'http://' + mp3
 
+        mp3 = mp3.split('.mp3')[0]
         if str.find(mp3, '.mp3') == -1:
             mp3 = mp3 + '.mp3'
 
@@ -98,6 +104,6 @@ class XMLdata:
 
             mp3 = str(d['entries'][search_value]['enclosures'])
             name = str(d['entries'][search_value]['title'])
-            print(name)
+            print("\n\n{}".format(name))
 
         return mp3, name, error_search
