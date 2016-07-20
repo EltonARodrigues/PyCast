@@ -1,11 +1,10 @@
 import os
 import feedparser
-import urllib
 from urllib.request import Request, urlopen
 from XMLCSV.csv_import import CSVfeed
 
 
-class XMLdata:
+class XMLdata(object):
 
     def __init__(self,url):
         self.url = url
@@ -25,10 +24,10 @@ class XMLdata:
         n_epsodes = int((len(self.d['entries'])))
         return self.d, n_epsodes
 
-    def download(self, name, file, podcast_name):
-        #html = urllib.request.urlopen(file).read()
+    def download(self, name, link_file, podcast_name):
+        #html = urllib.request.urlopen(link_file).read()
 
-        req = Request(file, headers={'User-Agent': 'Mozilla/5.0'})
+        req = Request(link_file, headers={'User-Agent': 'Mozilla/5.0'})
         html = urlopen(req).read()
 
         name = name + '.mp3'
@@ -88,7 +87,7 @@ class XMLdata:
                         search_value = int(choice)
                         find = True
 
-                if find == True:
+                if find:
                     break
                     
                 else:

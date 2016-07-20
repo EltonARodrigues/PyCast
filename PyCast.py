@@ -3,7 +3,6 @@
 from XMLCSV.XMLdata import XMLdata
 from XMLCSV.csv_import import CSVfeed
 import os
-import csv
 
 class Pycast(object):
    

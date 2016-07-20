@@ -1,10 +1,10 @@
 import csv
 import os.path
 
-class CSVfeed:
+class CSVfeed(object):
     def file_csv(self):
-        file = os.path.isfile('Podcasts.csv')
-        if not file:
+        podcsv = os.path.isfile('Podcasts.csv')
+        if not podcsv:
             f = open ('Podcasts.csv', 'w') 
             f.close () 
 
@@ -45,7 +45,6 @@ class CSVfeed:
         return check_url
 
     def get_url(self,id_p):
-        i = 0
         with open('Podcasts.csv') as csvfile:
             users_reader = csv.reader(csvfile)
             for row in users_reader:
