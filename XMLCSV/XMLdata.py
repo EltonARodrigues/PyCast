@@ -1,4 +1,4 @@
-import os
+import os, re
 import feedparser
 from urllib.request import Request, urlopen
 from XMLCSV.csv_import import CSVfeed
@@ -12,7 +12,7 @@ class XMLdata(object):
         self.link_p = self.d.feed.title_detail.base
         self.title_p = self.d.feed.title_detail.value
         self.url_site = self.d.feed.link
-    
+
     def add_feed(self):
 
         CSV = CSVfeed()
@@ -46,19 +46,8 @@ class XMLdata(object):
         arq.close()
 
     def clear_link(self, mp3):
-        if mp3.find('https://') != -1:
-            mp3 = mp3.split('https://')[-1]
-            mp3 = 'https://' + mp3
-        
-        elif mp3.find('http://') != -1:
-            mp3 = mp3.split('http://')[-1]
-            mp3 = 'http://' + mp3
-
-        mp3 = mp3.split('.mp3')[0]
-        if str.find(mp3, '.mp3') == -1:
-            mp3 = mp3 + '.mp3'
-
-        return mp3
+        re_link = re.search('http.+mp3',mp3)
+        return re_link.group(0)
 
     def search_pod(self, feed, search):
         d, n_epsodes = feed
@@ -89,7 +78,7 @@ class XMLdata(object):
 
                 if find:
                     break
-                    
+
                 else:
                     print('\t\t\t\t\tInsert Error... Try Again!')
 
