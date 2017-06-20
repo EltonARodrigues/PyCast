@@ -3,7 +3,6 @@ import feedparser
 from urllib.request import Request, urlopen
 from XMLCSV.csv_import import CSVfeed
 
-
 class XMLdata(object):
 
     def __init__(self,url):

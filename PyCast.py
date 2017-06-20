@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from XMLCSV.XMLdata import XMLdata
+from XMLCSV.OPML import OPML
 from XMLCSV.csv_import import CSVfeed
 import os
 
@@ -29,7 +30,7 @@ class Pycast(object):
                 cont_p = CSV.select()
                 if cont_p != -1:
                     
-                    self.id_p = input("\nType it ID or new/remove/exit feed: ")
+                    self.id_p = input("\nType it ID or new/import/remove/exit feed: ")
                     if type(self.id_p) is str:
                         self.id_p = self.id_p.lower()
 
@@ -42,12 +43,27 @@ class Pycast(object):
                             self.url = "http://" + self.url
 
                     if CSV.verify(self.url) is True:
-                        os.system('clear')  
-                        print('\t\t\t\t\tFeed already added')   
+                        os.system('clear')
+                        print('\t\t\t\t\tFeed already added')
+                    
                     else:
                         XMLdata(self.url).add_feed()
                     self.id_p = 'continue'
                     os.system('clear')
+
+                elif(self.id_p == 'import'):
+                    
+                    try:
+                        file = input("Arraste o arquivo ou digite o caminho do OPML:")
+                        OPML(file).get_opml()
+                        os.system('clear')
+                        print('\t\t\t\t\tImport successfully')
+                        self.id_p = 'continue'
+                    
+                    except FileNotFoundError:
+                        os.system('clear')
+                        print('\t\t\t\t\tFile not Found!!!')
+                        self.id_p = 'continue'
                     
                 elif self.id_p == 'remove':
                     id_remove = input("Insert ID to remove feed: ")
@@ -66,6 +82,7 @@ class Pycast(object):
                 else:
                     self.id_p = 'continue'
                     os.system('clear')
+                    self.id_p = 'continue'
                     print('\t\t\t\t\tinput invalid!')
 
             except IndexError:

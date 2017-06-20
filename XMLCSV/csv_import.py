@@ -1,6 +1,7 @@
 import csv
 import os.path
 
+
 class CSVfeed(object):
     def file_csv(self):
         podcsv = os.path.isfile('Podcasts.csv')
