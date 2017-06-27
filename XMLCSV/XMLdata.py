@@ -1,11 +1,14 @@
-import os, re
+import os
+import re
 import feedparser
-from urllib.request import Request, urlopen
+from urllib.request import Request
+from urllib.request import urlopen
 from XMLCSV.csv_import import CSVfeed
+
 
 class XMLdata(object):
 
-    def __init__(self,url):
+    def __init__(self, url):
         self.url = url
         self.d = feedparser.parse(url)
         self.link_p = self.d.feed.title_detail.base
@@ -15,7 +18,7 @@ class XMLdata(object):
     def add_feed(self):
 
         CSV = CSVfeed()
-        CSV.new_feed(self.title_p,self.link_p)
+        CSV.new_feed(self.title_p, self.link_p)
 
     def feed_in(self):
         print('Loading feed...')
@@ -24,16 +27,15 @@ class XMLdata(object):
         return self.d, n_epsodes
 
     def download(self, name, link_file, podcast_name):
-        #html = urllib.request.urlopen(link_file).read()
 
         req = Request(link_file, headers={'User-Agent': 'Mozilla/5.0'})
         html = urlopen(req).read()
 
         name = name + '.mp3'
 
-        #remove / filename
+        # remove/filename
         if str.find(name, ','):
-            name = name.replace('/','')
+            name = name.replace('/', '')
 
         d = ('PodCast/' + podcast_name + '/')
 
@@ -45,7 +47,7 @@ class XMLdata(object):
         arq.close()
 
     def clear_link(self, mp3):
-        re_link = re.search('http.+mp3',mp3)
+        re_link = re.search('http.+mp3', mp3)
         return re_link.group(0)
 
     def search_pod(self, feed, search):

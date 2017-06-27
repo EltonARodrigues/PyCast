@@ -6,21 +6,20 @@ class CSVfeed(object):
     def file_csv(self):
         podcsv = os.path.isfile('Podcasts.csv')
         if not podcsv:
-            f = open ('Podcasts.csv', 'w') 
-            f.close () 
+            f = open('Podcasts.csv', 'w')
+            f.close()
 
-    def new_feed(self,name,feed):
+    def new_feed(self, name, feed):
 
         id_p = 0
         with open('Podcasts.csv') as csvfile:
             cast_reader = csv.reader(csvfile)
             for row in cast_reader:
                 id_p = int(row[0])
-            
             id_p += 1
         with open('Podcasts.csv', 'a') as file_handler:
             csv_writer = csv.writer(file_handler)
-            csv_writer.writerow([id_p,name,feed])
+            csv_writer.writerow([id_p, name, feed])
 
     def select(self):
         cont = -1
@@ -45,14 +44,14 @@ class CSVfeed(object):
 
         return check_url
 
-    def get_url(self,id_p):
+    def get_url(self, id_p):
         with open('Podcasts.csv') as csvfile:
             users_reader = csv.reader(csvfile)
             for row in users_reader:
                 if(row[0] == id_p):
                     return row[2]
 
-    def remove(self,id_remove):
+    def remove(self, id_remove):
         teste = list()
         with open('Podcasts.csv', 'r') as csvfile:
             users_reader = csv.reader(csvfile)
@@ -64,3 +63,6 @@ class CSVfeed(object):
             csv_writer = csv.writer(file_handler)
             for row in teste:
                 csv_writer.writerow(row)
+    
+    def removeAll(self, id_remove):
+        os.remove('./Podcasts.csv')

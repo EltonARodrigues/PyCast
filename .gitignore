@@ -1,3 +1,4 @@
+.vscode/
 feed_list
 __pycache__/
 02_create_data_sql.py
