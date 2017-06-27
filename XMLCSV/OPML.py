@@ -5,7 +5,7 @@ from xml.etree import ElementTree
 
 class OPML():
 
-    def __init__(self, file):
+    def __init__(self,file):
 
         self.file = file
 

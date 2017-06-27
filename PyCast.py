@@ -2,7 +2,6 @@
 
 from XMLCSV.XMLdata import XMLdata
 from XMLCSV.OPML import OPML
-from XMLCSV.OPML import OPML
 from XMLCSV.csv_import import CSVfeed
 import os
 
@@ -42,15 +41,9 @@ class Pycast(object):
 
                     if str.find(self.url, "opml") > 0:
 
-                        try:
-                            print('Loading...')
-                            OPML(self.url).get_opml()
-                            print('\t\t\t\t\tImport successfully')
-
-                        except FileNotFoundError:
-                            os.system('clear')
-                            print('\t\t\t\t\tFile not Found!!!')
-                            self.id_p = 'continue'
+                        print('Loading...')
+                        OPML(self.url).get_opml()
+                        print('\t\t\t\t\tImport successfully')
 
                     elif str.find(self.url, "https://") != 0:
                         if str.find(self.url, "http://") != 0:

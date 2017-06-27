@@ -64,5 +64,5 @@ class CSVfeed(object):
             for row in teste:
                 csv_writer.writerow(row)
     
-    def removeAll(self, id_remove):
+    def removeAll(self):
         os.remove('./Podcasts.csv')
