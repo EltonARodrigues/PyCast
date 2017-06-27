@@ -14,13 +14,17 @@ Python podcast manager in terminal
 .
 ├── CONTRIBUTORS.md
 ├── LICENSE
+├── Podcasts.csv
 ├── PyCast.py
 ├── README.md
 ├── requirements.txt
 └── XMLCSV
     ├── csv_import.py
     ├── __init__.py
+    ├── OPML.py
     └── XMLdata.py
+
+
 ```
 ## Help the project
 
