@@ -1,146 +1,119 @@
+#!/usr/bin/python3.7
 # -*- coding: utf-8 -*-
 
-from XMLCSV.XMLdata import XMLdata
-from XMLCSV.OPML import OPML
-from XMLCSV.csv_import import CSVfeed
+from pycast.action import Action_add, Action_exit, Action_id, Action_remove, No_action
+from pycast.exception import IDError, LinkError
+from pycast.feed import Feed
+from pycast.opml import OPML
+from pycast.rss import RSS
+import validators
 import os
+import re
 
 
-class Pycast(object):
+class Pycast:
 
     def __init__(self):
-        self.url = str
-        self.exit = False
-        self.id_p = 'continue'
+        self.command = True
+        self.__alert = ''
 
-    def main(self):
-        while self.id_p == 'continue':
+    def menu(self):
+        self.command = True
+        while self.command:
+            os.system('clear')
+            print(F'Alert: {self.__alert}')
             print("""
-                     ____         ____          _
-                    |  _ \ _   _ / ___|__ _ ___| |_
-                    | |_) | | | | |   / _` / __| __|
-                    |  __/| |_| | |__| (_| \__ \ |_
-                    |_|    \__, |\____\__,_|___/\__|
-                            |___/
-                    """)
+     ____         ____          _
+    |  _ \ _   _ / ___|__ _ ___| |_
+    | |_) | | | | |   / _` / __| __|
+    |  __/| |_| | |__| (_| \__ \ |_
+    |_|    \__, |\____\__,_|___/\__|
+            |___/
+    """)
+            print("\tID\tPodCast\t")
+            print("-" * 39)
 
-            CSV = CSVfeed()
-            CSV.file_csv()
+            feed = Feed()
+            feed.search_file()
 
             try:
-                cont_p = CSV.select()
-                if cont_p != -1:
-
-                    self.id_p = input("\nType it ID or new/remove/exit feed: ")
-                    if isinstance(self.id_p, str):
-                        self.id_p = self.id_p.lower()
-
-                if self.id_p == 'new' or self.id_p == 'continue':
-
-                    self.url = input("Enter the Feed or the opml directory: ")
-
-                    if str.find(self.url, "opml") > 0:
-
-                        print('Loading...')
-                        OPML(self.url).get_opml()
-                        print('\t\t\t\t\tImport successfully')
-
-                    elif str.find(self.url, "https://") != 0:
-                        if str.find(self.url, "http://") != 0:
-                            self.url = "http://" + self.url
-
-                    if CSV.verify(self.url) is True:
-                        os.system('clear')
-                        print('\t\t\t\t\tFeed already added')
-
-                    else:
-                        XMLdata(self.url).add_feed()
-                    self.id_p = 'continue'
-                    os.system('clear')
-
-                elif self.id_p == 'remove':
-                    id_remove = input("Insert ID to remove feed (all): ")
-                    if id_remove == 'all':
-                        CSV.removeAll(id_remove)
-                    
-                    else:
-                        CSV.remove(id_remove)
-
-                    os.system('clear')
-                    self.id_p = 'continue'
-
-                elif self.id_p == 'exit':
-                    return True
-
-                elif self.id_p.isdigit():
-                    self.url = CSV.get_url(self.id_p)
-
+                if feed.number_of_podcasts() != -1:
+                    self.command = input('\nType it ID or '
+                                            'new/remove/exit feed: ').lower()
                 else:
-                    self.id_p = 'continue'
-                    os.system('clear')
-                    self.id_p = 'continue'
-                    print('\t\t\t\t\tinput invalid!')
+                    self.command = 'new'
+
+                url = Action_add(
+                    Action_remove(
+                        Action_id(
+                            Action_exit(
+                                No_action())))).command(self.command)
+
+                if self.verify_url(url):
+                    self.__select_epsode(url)
+
+            except TypeError:
+                pass
 
             except IndexError:
-
-                os.system('clear')
-                print("\t\t\t\t\tID not found")
-                self.id_p = 'continue'
+                self.__alert = "ID not found"
+                self.command = True
 
             except AttributeError:
-                os.system('clear')
-                print("\t\t\t\t\tfeed link invalid")
-                self.id_p = 'continue'
+                self.__alert = "Feed link invalid"
+                self.command = True
 
-        print('Loading...')
-        try:
-            while True:
-                m = XMLdata(self.url)
-                search = input('Type episode name or restart: ')
-                search = str.title(search)
+    def __select_epsode(self, url):
 
-                if search == 'Restart':
-                    break
+        self.command = True
+        while self.command:
+            rss = RSS(url)
+            search_input = input('\nOptions:'
+                                 '\n-Search by name or leave blank to show all'
+                                 '\n-Type (home) to return'
+                                 '\nSearch: ')
 
-                mp3, name_mp3, error_search = m.search_pod(m.feed_in(), search)
+            if search_input == 'home':
+                self.command = False
+                break
 
-                if error_search != 1:
-                    break
-
-                os.system('clear')
-                print('\t\t\t\t\tEpisode not found!')
-
-            if search != 'Restart':
-                dow = input("Want to Do Download this podcast ( Yes / No) : ")
-                dow = str.upper(dow)
-
-                if dow == "YES":
-
-                    print("Downloading..... ")
-
-                    podcast_name = m.title_p
-                    m.download(name_mp3, m.clear_link(mp3), podcast_name)
-                    self.id_p = 'continue'
-                    os.system('clear')
-                    print('\tDownload Complete - ' + name_mp3)
-
-                elif dow == 'NO':
-                    self.id_p = 'continue'
-                    os.system('clear')
             else:
-                self.id_p = 'continue'
-                os.system('clear')
+                mp3, mp3_name = rss.search_podcast(search_input)
 
-        except AttributeError:
-            os.system('clear')
-            print("\t\t\t\t\tID not found")
-            self.id_p = 'continue'
+                if mp3_name == 'home':
+                    self.command = False
+                    break
 
+                else:
+                    download = str.lower(input('Want to Do Download this podcast'
+                                               '(yes/no): '))
+
+                    if download == "yes":
+
+                        print("Downloading.....")
+
+                        rss.download(mp3_name, mp3)
+
+                        self.command = True
+                        self.__alert = F'Download Complete - {mp3_name}'
+                        break
+                    break
+
+    def verify_url(self, url):
+        re_url = re.compile("^(http:\/\/www\.|https:\/"
+                                    "\/www\.|http:\/\/|https:\/\/)?"
+                                    "[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\."
+                                    "[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$")
+
+        if re.match(re_url, url):
+            self.command = True
+            return True
         return False
+
+
 
 if __name__ == '__main__':
     P = Pycast()
-    os.system('clear')
     while True:
-        if P.main():
-            break
+        os.system('clear')
+        P.menu()

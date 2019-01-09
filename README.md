@@ -7,25 +7,24 @@ Python podcast manager in terminal
 
 - Python 3+ (Python 2.7 is not working) 
 - csv (1.0) 
-- library Feedparser 5.2.1(pip install feedparser)
+- library Feedparser 5.2.1
 
 ## Structure
 ```
 .
 ├── CONTRIBUTORS.md
 ├── LICENSE
+├── PodCast
 ├── Podcasts.csv
+├── pycast
+│   ├── action.py
+│   ├── exception.py
+│   ├── feed.py
+│   ├── opml.py
+│   ├── rss.py
 ├── PyCast.py
 ├── README.md
 ├── requirements.txt
-└── XMLCSV
-    ├── csv_import.py
-    ├── __init__.py
-    ├── OPML.py
-    └── XMLdata.py
-
-
+└── tests
+    └── test_feed.py
 ```
-## Help the project
-
--![gpl](https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/GPLv3_Logo.svg/180px-GPLv3_Logo.svg.png) 
