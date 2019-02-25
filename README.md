@@ -1,5 +1,5 @@
 
-# PyCast - Pythonic Podcast [![Code Health](https://landscape.io/github/EltonARodrigues/PyCast/master/landscape.svg?style=flat)](https://landscape.io/github/EltonARodrigues/PyCast/master)
+# PyCast - Pythonic Podcast 
 
 Python podcast manager in terminal
 
