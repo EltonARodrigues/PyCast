@@ -16,18 +16,18 @@ class Test_feed(TestCase):
 
 
     def test_add_new_url_feed(self):
-        self.assertEqual(True, self.podcast_1)
+        self.assertTrue(self.podcast_1)
 
     def test_url_duplicate_feed(self):
         podcast_2 = RSS(self.address).add()
 
-        self.assertEqual(True,self.podcast_1)
-        self.assertEqual(False,podcast_2)
+        self.assertTrue(self.podcast_1)
+        self.assertFalse(podcast_2)
 
     def test_remove_podcast(self):
         Feed().remove("1")
 
-        self.assertEqual(False, Feed().url("1"))
+        self.assertFalse(Feed().url("1"))
 
     def test_remove_all_podcasts(self):
         Feed().remove_all()
@@ -39,4 +39,4 @@ class Test_feed(TestCase):
         url = feed.url("1")
         status = Pycast().verify_url(url)
 
-        self.assertEqual(True, status)
+        self.assertTrue(status)
