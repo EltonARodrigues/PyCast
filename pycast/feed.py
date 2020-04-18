@@ -1,71 +1,64 @@
 #!/usr/bin/python3.7
 # -*- coding: utf-8 -*-
+import sqlite3
 import os.path
 import csv
 
 
 class Feed:
 
-    def search_file(self):
-        podcsv = os.path.isfile('Podcasts.csv')
-        if not podcsv:
-            f = open('Podcasts.csv', 'w')
-            f.close()
+    def __init__(self):
+        self.__conn = sqlite3.connect('feed.db')
+        self.__cur = self.__conn.cursor()
 
-    def new(self, name, feed, url):
-        if self.verify(url):
-            podcast_id = 0
-            with open('Podcasts.csv') as csvfile:
-                cast_reader = csv.reader(csvfile)
-                for row in cast_reader:
-                    podcast_id = int(row[0])
-                podcast_id += 1
+    def __del__(self):
+        self.__conn.close()
 
-            with open('Podcasts.csv', 'a') as file_handler:
-                csv_writer = csv.writer(file_handler)
-                csv_writer.writerow([podcast_id, name, feed])
-            return True
+    def search_for_db(self):
+        pass
+
+    def new(self, name, url):
+        if not self.duplicated(url):
+            self.__cur.execute('INSERT INTO feed(name, url) VALUES(?, ?)', (name, url))
+            feed_id = self.__cur.lastrowid
+            self.__conn.commit()
+            return feed_id
         return False
 
     def number_of_podcasts(self):
-        cont = -1
 
-        with open('Podcasts.csv') as csvfile:
-            cast_reader = csv.reader(csvfile)
-            for row in cast_reader:
-                print('|\t{}\t{}\t'.format(row[0], row[1]))
-                cont += 1
-        return cont
+        self.__cur.execute('SELECT id, name from feed')
+        self.__conn.commit()
 
-    def verify(self, feed):
-        with open('Podcasts.csv') as csvfile:
-            cast_reader = csv.reader(csvfile)
-            for row in cast_reader:
-                if row[2] == feed:
-                    return False
-        return True
+        podcasts_list = self.__cur.fetchall()
+
+        list_of_podcasts_is_empty = lambda: len(podcasts_list) == 0
+
+        if list_of_podcasts_is_empty():
+            return False
+
+        for podcast in podcasts_list:
+            print('|\t{}\t{}\t'.format(podcast[0], podcast[1]))
+
+    def duplicated(self, url):
+        self.__cur.execute('SELECT EXISTS(SELECT url from feed where url= ? LIMIT 1)', (url, ))
+        self.__conn.commit()
+        return self.__cur.fetchone()[0]
 
     def url(self, podcast_id):
-        with open('Podcasts.csv') as csvfile:
-            users_reader = csv.reader(csvfile)
-            for row in users_reader:
-                if(row[0] == podcast_id):
-                    return row[2]
-        return False
 
-    def remove(self, id_remove):
-        podcast_list = list()
-        with open('Podcasts.csv', 'r') as csvfile:
-            users_reader = csv.reader(csvfile)
-            for row in users_reader:
-                if row[0] != id_remove:
-                    podcast_list.append(row)
+        try:
+            self.__cur.execute('SELECT url from feed where id= ? LIMIT 1', (podcast_id, ))
+            self.__conn.commit()
+            return self.__cur.fetchone()[0]
 
-        with open('Podcasts.csv', 'w') as file_handler:
-            csv_writer = csv.writer(file_handler)
-            for row in podcast_list:
-                csv_writer.writerow(row)
+        except TypeError:
+            return False
+
+    def remove(self, podcast_id):
+        self.__cur.execute('DELETE FROM feed WHERE id = ?', (podcast_id, ))
+        self.__conn.commit()
 
     def remove_all(self):
-        os.remove('./Podcasts.csv')
-        self.search_file()
+        self.__cur.execute('DELETE FROM feed')
+        self.__conn.commit()

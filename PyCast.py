@@ -6,7 +6,6 @@ from pycast.exception import IDError, LinkError
 from pycast.feed import Feed
 from pycast.opml import OPML
 from pycast.rss import RSS
-import validators
 import os
 import re
 
@@ -34,7 +33,7 @@ class Pycast:
             print("-" * 39)
 
             feed = Feed()
-            feed.search_file()
+            #feed.search_file()
 
             try:
                 if feed.number_of_podcasts() != -1:
@@ -44,10 +43,10 @@ class Pycast:
                     self.command = 'new'
 
                 url = Action_add(
-                    Action_remove(
-                        Action_id(
-                            Action_exit(
-                                No_action())))).command(self.command)
+                        Action_remove(
+                            Action_id(
+                                Action_exit(
+                                    No_action())))).command(self.command)
 
                 if self.verify_url(url):
                     self.__select_epsode(url)
@@ -85,7 +84,7 @@ class Pycast:
                     break
 
                 else:
-                    download = str.lower(input('Want to Do Download this podcast'
+                    download = str.lower(input('Do you want to download this podcast? '
                                                '(yes/no): '))
 
                     if download == "yes":
@@ -109,7 +108,6 @@ class Pycast:
             self.command = True
             return True
         return False
-
 
 
 if __name__ == '__main__':
