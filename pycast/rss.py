@@ -4,6 +4,7 @@
 from .feed import Feed
 from urllib.request import Request
 from urllib.request import urlopen
+from operator import add
 import feedparser
 import os
 import re
@@ -17,8 +18,8 @@ class RSS:
         self.__episode = self.__file.feed.title_detail.base
         self.__episode_title = self.__file.feed.title_detail.value
 
-    def add(self):
-        return Feed().new(self.__episode_title, self.__episode, self.url)
+    def new(self):
+        return Feed().new(self.__episode_title, self.url)
 
     def __count_epsodios(self):
         print('Loading feed...')
@@ -30,18 +31,19 @@ class RSS:
 
         html = urlopen(req).read()
 
-        name = name + '.mp3'
+        name = add(name, '.mp3')
 
         # remove/filename
         if str.find(name, ','):
             name = name.replace('/', '')
 
-        d = ('PodCast/' + self.__episode_title + '/')
+        directory = add('PodCast/', self.__episode_title)
+        directory = add(directory, '/')
 
-        if not os.path.exists(d):
-            os.makedirs(d)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
-        arq = open(d + name, 'wb')
+        arq = open(add(directory, name), 'wb')
         arq.write(html)
         arq.close()
 
@@ -81,4 +83,3 @@ class RSS:
                         name = str(d['entries'][search_value]['title'])
                         print("\n\n{}".format(name))
                         return mp3, name
-

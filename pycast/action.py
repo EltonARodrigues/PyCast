@@ -32,7 +32,7 @@ class Action_add:
 
                 print("Loading...")
                 print(action)
-                RSS(action).add()
+                RSS(action).new()
         else:
             return self.__next_action.command(action)
 

@@ -23,6 +23,6 @@ class OPML():
             url = node.attrib.get('xmlUrl')
             if url:
                 try:
-                    RSS(url).add()
+                    RSS(url).new()
                 except (AttributeError):
                     pass
