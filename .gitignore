@@ -163,3 +163,4 @@ __pycache__/
 __init__.py
 .cast/
 .test/
+*.db
